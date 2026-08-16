@@ -4,6 +4,16 @@
 >
 > React 19 + TypeScript + Vite · 无 Remotion / 无 ffmpeg / 无视频导出
 
+## 界面一览
+
+| 项目管理页 | 编辑器 · 画布编排 |
+| --- | --- |
+| ![项目管理页](docs/screenshots/01-projects.png) | ![编辑器](docs/screenshots/02-editor.png) |
+
+| 纯预览（视频背景 + 动效叠加） | 镜头卡库（152 张动效配方） |
+| --- | --- |
+| ![纯预览](docs/screenshots/03-preview.png) | ![镜头卡库](docs/screenshots/04-shot-library.png) |
+
 ## 桌面版（双击即用，无需安装依赖）
 
 已打包为原生桌面应用，**双击图标即可启动**，不需要安装 Node / npm / 任何依赖：
