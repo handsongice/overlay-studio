@@ -1,0 +1,611 @@
+/* ============================================================
+   Overlay Studio · 项目管理页 + 使用说明 + 只读预览
+   ============================================================ */
+
+/* ---------- 顶栏返回 / 使用说明按钮（编辑器 TopBar） ---------- */
+.topbar-back {
+  flex: none;
+  margin-left: 10px;
+  padding: 5px 12px;
+}
+.topbar-guide-btn {
+  flex: none;
+  margin-right: 6px;
+  padding: 5px 12px;
+}
+
+/* ---------- 项目管理页骨架 ---------- */
+.projects-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.projects-topbar {
+  height: var(--topbar-h);
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-1) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.projects-search {
+  flex: 1;
+  max-width: 460px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.projects-search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: var(--text-3);
+  pointer-events: none;
+}
+.projects-search-input {
+  width: 100%;
+  padding: 6px 30px 6px 30px;
+  border-radius: 999px;
+  background: var(--bg-2);
+}
+.projects-search-clear {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 11px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.projects-search-clear:hover {
+  color: var(--text-1);
+  background: var(--bg-3);
+}
+
+.projects-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+.projects-help-btn,
+.projects-new-btn {
+  padding: 6px 14px;
+}
+
+/* ---------- 统计条 ---------- */
+.projects-stats {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 8px 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-1);
+}
+.projects-stats b {
+  color: var(--text-1);
+  font-weight: 500;
+  margin-left: 4px;
+}
+.projects-stats-hint {
+  margin-left: auto;
+  color: var(--text-4);
+}
+
+/* ---------- 项目网格 ---------- */
+.projects-main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.22s var(--ease-out), transform 0.22s var(--ease-out), background 0.22s var(--ease-out);
+}
+.project-card:hover {
+  border-color: var(--line-strong);
+  background: var(--bg-3);
+  transform: translateY(-1px);
+}
+
+.project-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.project-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.project-card-id {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-4);
+  flex: none;
+}
+
+.project-card-meta {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+}
+.project-card-meta b {
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+.project-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.project-card-created {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-4);
+  white-space: nowrap;
+}
+.project-card-btns {
+  display: flex;
+  gap: 6px;
+}
+.project-btn {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+.project-btn.danger:hover:not(:disabled) {
+  border-color: rgba(255, 92, 92, 0.5);
+  color: #ff7b7b;
+}
+
+/* ---------- 空状态 ---------- */
+.projects-empty {
+  height: 100%;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  color: var(--text-3);
+}
+.projects-empty-icon {
+  font-size: 42px;
+  color: var(--text-4);
+  letter-spacing: 0;
+}
+.projects-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: 0.04em;
+}
+.projects-empty p {
+  max-width: 460px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-3);
+}
+.projects-empty-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.projects-foot {
+  flex: none;
+  padding: 10px 20px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--text-4);
+  text-align: center;
+}
+
+/* ---------- 项目只读预览模态框 ---------- */
+.preview-overlay {
+  z-index: 1200;
+}
+.preview-dialog {
+  width: min(1500px, calc(100vw - 48px));
+  height: min(900px, calc(100vh - 56px));
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-1);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+.preview-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.preview-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--text-1);
+}
+.preview-head small {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+}
+.preview-head-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.preview-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-0);
+}
+.preview-body > .app-main {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------- 使用说明 · GUIDE ---------- */
+.guide-overlay {
+  z-index: 1300;
+}
+.guide-dialog {
+  width: min(920px, calc(100vw - 48px));
+  height: min(680px, calc(100vh - 64px));
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-1);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+.guide-head {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.guide-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  color: var(--text-1);
+  margin-bottom: 5px;
+}
+.guide-head small {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+}
+
+.guide-tabs {
+  flex: none;
+  display: flex;
+  gap: 4px;
+  padding: 10px 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.guide-tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 8px 14px 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-mono);
+  transition: color 0.2s var(--ease-out);
+}
+.guide-tab:hover {
+  color: var(--text-1);
+}
+.guide-tab.active {
+  color: var(--text-1);
+  border-bottom-color: var(--accent);
+}
+
+.guide-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 20px;
+}
+
+/* 使用流程：左侧步骤导航 + 右侧面板 */
+.guide-steps {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 22px;
+  height: 100%;
+  min-height: 0;
+}
+.guide-step-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-right: 1px solid var(--line);
+  padding-right: 16px;
+  overflow-y: auto;
+}
+.guide-step-btn {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 9px 10px;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+.guide-step-btn:hover {
+  background: var(--bg-2);
+}
+.guide-step-btn.active {
+  background: var(--bg-3);
+  border-color: var(--line-strong);
+}
+.guide-step-btn.done .guide-step-no {
+  color: var(--accent);
+}
+.guide-step-no {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-4);
+  flex: none;
+}
+.guide-step-btn b {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+}
+.guide-step-btn.active b {
+  color: var(--text-1);
+}
+.guide-step-btn small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: var(--text-4);
+  margin-top: 2px;
+}
+
+.guide-step-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.guide-step-panel-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: 0.03em;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.guide-step-panel-title span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  margin-right: 10px;
+}
+.guide-step-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 2px;
+}
+.guide-step-panel-body p {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--text-2);
+}
+.guide-step-panel-body b {
+  color: var(--text-1);
+  font-weight: 600;
+}
+.guide-step-panel-body em {
+  color: var(--accent);
+  font-style: normal;
+}
+.guide-step-pager {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.guide-step-pager span {
+  margin: 0 auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.14em;
+}
+
+/* 快捷键 / FAQ 区块 */
+.guide-section {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.guide-section-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--text-1);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+.guide-kv {
+  display: flex;
+  flex-direction: column;
+}
+.guide-kv-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.guide-kv-row kbd {
+  flex: none;
+  min-width: 58px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-1);
+  background: var(--bg-3);
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+.guide-kv-row span {
+  font-size: 12px;
+  color: var(--text-2);
+}
+.guide-note {
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--text-4);
+  line-height: 1.7;
+}
+
+.guide-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.guide-faq-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+  overflow: hidden;
+}
+.guide-faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-1);
+  letter-spacing: 0.02em;
+  position: relative;
+  padding-right: 30px;
+}
+.guide-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  color: var(--text-3);
+}
+.guide-faq-item[open] summary::after {
+  content: "–";
+  color: var(--accent);
+}
+.guide-faq-item p {
+  margin: 0;
+  padding: 0 14px 13px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+
+.guide-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--text-4);
+}
