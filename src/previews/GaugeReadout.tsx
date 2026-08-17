@@ -137,7 +137,7 @@ function Gauge({ start, target, frame }: { start: number; target: number; frame:
           transform: `scale(${popScale.toFixed(4)})`,
         }}
       >
-        <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, color: "var(--ink)", fontVariantNumeric: "tabular-nums" }}>
+        <span style={{ fontFamily: "var(--font-display)", fontWeight: "calc(800 * var(--fw, 1))", fontSize: "calc(40px * var(--fs, 1))", color: "var(--ink)", fontVariantNumeric: "tabular-nums" }}>
           {value}
         </span>
       </div>
@@ -148,7 +148,7 @@ function Gauge({ start, target, frame }: { start: number; target: number; frame:
 function NeedleBoard({ frame, label }: { frame: number; label: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.34em", color: "var(--ink-dim)", marginBottom: 16 }}>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", letterSpacing: "0.34em", color: "var(--ink-dim)", marginBottom: 16 }}>
         {label}
       </div>
       <div style={{ display: "flex", gap: 10 }}>
@@ -207,8 +207,8 @@ function TapeBoard({ frame, label }: { frame: number; label: string }) {
             top: y - 16,
             right: 92,
             fontFamily: "var(--font-mono)",
-            fontWeight: 700,
-            fontSize: 26,
+            fontWeight: "calc(700 * var(--fw, 1))",
+            fontSize: "calc(26px * var(--fs, 1))",
             color: "var(--ink-dim)",
             textAlign: "right",
             width: 76,
@@ -223,7 +223,7 @@ function TapeBoard({ frame, label }: { frame: number; label: string }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.34em", color: "var(--ink-dim)", marginBottom: 16 }}>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", letterSpacing: "0.34em", color: "var(--ink-dim)", marginBottom: 16 }}>
         {label}
       </div>
       <div style={{ display: "flex", alignItems: "stretch", gap: 26 }}>
@@ -266,7 +266,7 @@ function TapeBoard({ frame, label }: { frame: number; label: string }) {
           }}
         >
           <div style={{ height: 6, width: 84, background: "var(--line)", borderRadius: 3, marginBottom: 12 }} />
-          <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 52, color: "var(--accent)", letterSpacing: "-0.02em", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: "calc(800 * var(--fw, 1))", fontSize: "calc(52px * var(--fs, 1))", color: "var(--accent)", letterSpacing: "-0.02em", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
             {Math.round(v)}
           </div>
         </div>
@@ -294,7 +294,7 @@ export function GaugeReadout({ params }: { params: Params }) {
       <PreviewChrome index="15" name="GAUGE READOUT" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 40, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 40, whiteSpace: "nowrap" }}>
             SHOT CARD · GAUGE READOUT · {mode === "needle" ? "NEEDLE SWEEP" : "TAPE SCROLL"}
           </div>
           {mode === "needle" ? <NeedleBoard frame={f} label={label} /> : <TapeBoard frame={f} label={label} />}

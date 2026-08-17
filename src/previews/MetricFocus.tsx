@@ -94,7 +94,7 @@ export function MetricFocus({ params }: { params: Params }) {
       <PreviewChrome index="01" name="METRIC FOCUS" />
       <div
         className="mf-ghost"
-        style={{ fontSize: ghostFont, ...delayVar(delay + 0.3) }}
+        style={{ fontSize: `calc(${ghostFont}px * var(--fs, 1))`, ...delayVar(delay + 0.3) }}
       >
         {ghostText}
       </div>
@@ -104,9 +104,9 @@ export function MetricFocus({ params }: { params: Params }) {
           <span>{label}</span>
         </div>
         <div className="mf-number" style={delayVar(delay + 0.15)}>
-          <span className="mf-value" style={{ fontSize: numFont }}>{text}</span>
+          <span className="mf-value" style={{ fontSize: `calc(${numFont}px * var(--fs, 1))` }}>{text}</span>
           {unit && (
-            <span className="mf-unit" style={{ fontSize: Math.round(numFont * 0.32) }}>
+            <span className="mf-unit" style={{ fontSize: `calc(${Math.round(numFont * 0.32)}px * var(--fs, 1))` }}>
               {unit}
             </span>
           )}

@@ -66,8 +66,8 @@ function Card({ title, subtitle, children }: { title: string; subtitle: string; 
   return (
     <div style={{ width: CARD_W, height: CARD_H, background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, boxSizing: "border-box", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", left: PAD, top: 30, fontFamily: "var(--font-display)" }}>
-        <div style={{ fontSize: 21, fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.01em" }}>{title}</div>
-        <div style={{ fontSize: 13, fontWeight: 500, color: "var(--ink-dim)", marginTop: 5, fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>{subtitle}</div>
+        <div style={{ fontSize: "calc(21px * var(--fs, 1))", fontWeight: "calc(700 * var(--fw, 1))", color: "var(--ink)", letterSpacing: "-0.01em" }}>{title}</div>
+        <div style={{ fontSize: "calc(13px * var(--fs, 1))", fontWeight: "calc(500 * var(--fw, 1))", color: "var(--ink-dim)", marginTop: 5, fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>{subtitle}</div>
       </div>
       {children}
     </div>
@@ -135,16 +135,16 @@ function OscChart({ frame }: { frame: number }) {
           transformOrigin: "right top",
         }}
       >
-        <div style={{ fontSize: 32, fontWeight: 800, color: hot ? "var(--accent)" : "var(--ink)", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>
+        <div style={{ fontSize: "calc(32px * var(--fs, 1))", fontWeight: "calc(800 * var(--fw, 1))", color: hot ? "var(--accent)" : "var(--ink)", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>
           {readout}
         </div>
-        <div style={{ fontSize: 12, fontWeight: 600, color: hot ? "var(--accent)" : "var(--ink-dim)", marginTop: 2, fontFamily: "var(--font-mono)", letterSpacing: "0.2em" }}>
+        <div style={{ fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: hot ? "var(--accent)" : "var(--ink-dim)", marginTop: 2, fontFamily: "var(--font-mono)", letterSpacing: "0.2em" }}>
           REQ/S · LIVE
         </div>
       </div>
 
       {Y_TICKS.map((t, i) => (
-        <div key={`yt${i}`} style={{ position: "absolute", left: PAD - 4, top: PLOT_Y + (PLOT_H / 4) * i - 10, width: AXIS_W - 8, textAlign: "right", fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 600, color: "var(--ink-dim)" }}>
+        <div key={`yt${i}`} style={{ position: "absolute", left: PAD - 4, top: PLOT_Y + (PLOT_H / 4) * i - 10, width: AXIS_W - 8, textAlign: "right", fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)" }}>
           {t}
         </div>
       ))}
@@ -169,7 +169,7 @@ function OscChart({ frame }: { frame: number }) {
 
       <div style={{ position: "absolute", left: PLOT_X, top: PLOT_Y + PLOT_H + 10, width: PLOT_W }}>
         {X_TICKS.map((t, i) => (
-          <div key={`xt${i}`} style={{ position: "absolute", left: (PLOT_W / 3) * i - 30, width: 60, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, color: "var(--ink-dim)" }}>
+          <div key={`xt${i}`} style={{ position: "absolute", left: (PLOT_W / 3) * i - 30, width: 60, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)" }}>
             {t}
           </div>
         ))}
@@ -285,8 +285,8 @@ function DotsChart({ frame }: { frame: number }) {
   return (
     <div style={{ width: CARD_W, height: CARD_H, background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 14, boxSizing: "border-box", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", left: PAD, top: 28, fontFamily: "var(--font-display)" }}>
-        <div style={{ fontSize: 21, fontWeight: 700, color: "var(--ink)" }}>Customer growth</div>
-        <div style={{ fontSize: 12, marginTop: 5, color: "var(--ink-dim)", fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}>EACH DOT ≈ 40 CUSTOMERS</div>
+        <div style={{ fontSize: "calc(21px * var(--fs, 1))", fontWeight: "calc(700 * var(--fw, 1))", color: "var(--ink)" }}>Customer growth</div>
+        <div style={{ fontSize: "calc(12px * var(--fs, 1))", marginTop: 5, color: "var(--ink-dim)", fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}>EACH DOT ≈ 40 CUSTOMERS</div>
       </div>
 
       <svg width={CARD_W} height={CARD_H} style={{ position: "absolute", inset: 0 }}>
@@ -297,7 +297,7 @@ function DotsChart({ frame }: { frame: number }) {
 
       {clusterLabelOp > 0 &&
         CLUSTER_C.map((c, g) => (
-          <div key={`cl${g}`} style={{ position: "absolute", left: c[0] - 120, top: c[1] - CLUSTER_R[g] - 40, width: 240, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 14, fontWeight: 700, color: g === 2 ? "var(--accent)" : "var(--ink)", opacity: clusterLabelOp }}>
+          <div key={`cl${g}`} style={{ position: "absolute", left: c[0] - 120, top: c[1] - CLUSTER_R[g] - 40, width: 240, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(14px * var(--fs, 1))", fontWeight: "calc(700 * var(--fw, 1))", color: g === 2 ? "var(--accent)" : "var(--ink)", opacity: clusterLabelOp }}>
             {GROUP_LABEL[g]}
           </div>
         ))}
@@ -306,7 +306,7 @@ function DotsChart({ frame }: { frame: number }) {
         <>
           <div style={{ position: "absolute", left: 30, width: 460, top: BAR_BASE + 14, height: 2, background: "var(--line)", opacity: barLabelOp }} />
           {BAR_X.map((x, g) => (
-            <div key={`bl${g}`} style={{ position: "absolute", left: x - 80, top: BAR_BASE + 26, width: 160, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 14, fontWeight: 700, color: g === 2 ? "var(--accent)" : "var(--ink-dim)", opacity: barLabelOp }}>
+            <div key={`bl${g}`} style={{ position: "absolute", left: x - 80, top: BAR_BASE + 26, width: 160, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(14px * var(--fs, 1))", fontWeight: "calc(700 * var(--fw, 1))", color: g === 2 ? "var(--accent)" : "var(--ink-dim)", opacity: barLabelOp }}>
               {["Free", "Pro", "Enterprise"][g]}
             </div>
           ))}
@@ -314,7 +314,7 @@ function DotsChart({ frame }: { frame: number }) {
       )}
 
       {captionOp > 0 && (
-        <div style={{ position: "absolute", left: 0, width: CARD_W, top: Y0 + 7 * CELL + 52, textAlign: "center", fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 600, color: "var(--ink-dim)", opacity: captionOp, letterSpacing: 2 }}>
+        <div style={{ position: "absolute", left: 0, width: CARD_W, top: Y0 + 7 * CELL + 52, textAlign: "center", fontFamily: "var(--font-display)", fontSize: "calc(20px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)", opacity: captionOp, letterSpacing: 2 }}>
           Total customers · 10,840
         </div>
       )}
@@ -384,16 +384,16 @@ function AxisChart({ frame }: { frame: number }) {
           const y = (PLOT_H / 4) * (3 - i);
           return (
             <div key={`t${i}`} style={{ position: "absolute", left: -AXIS_W, top: y - 12, width: AXIS_W - 12, height: 24, textAlign: "right" }}>
-              <div style={{ position: "absolute", inset: 0, fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 13, color: "var(--ink-dim)", textAlign: "right", opacity: 1 - swap, transform: `translateY(${swap * 20}px)` }}>
+              <div style={{ position: "absolute", inset: 0, fontFamily: "var(--font-mono)", fontWeight: "calc(700 * var(--fw, 1))", fontSize: "calc(13px * var(--fs, 1))", color: "var(--ink-dim)", textAlign: "right", opacity: 1 - swap, transform: `translateY(${swap * 20}px)` }}>
                 {v}
               </div>
-              <div style={{ position: "absolute", inset: 0, fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 13, color: "var(--ink)", textAlign: "right", opacity: swap, transform: `translateY(${(swap - 1) * 20}px)` }}>
+              <div style={{ position: "absolute", inset: 0, fontFamily: "var(--font-mono)", fontWeight: "calc(700 * var(--fw, 1))", fontSize: "calc(13px * var(--fs, 1))", color: "var(--ink)", textAlign: "right", opacity: swap, transform: `translateY(${(swap - 1) * 20}px)` }}>
                 {NEW_TICKS[i]}
               </div>
             </div>
           );
         })}
-        <div style={{ position: "absolute", left: -AXIS_W, top: PLOT_H - 12, width: AXIS_W - 12, fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 13, color: "var(--ink-dim)", textAlign: "right" }}>$0</div>
+        <div style={{ position: "absolute", left: -AXIS_W, top: PLOT_H - 12, width: AXIS_W - 12, fontFamily: "var(--font-mono)", fontWeight: "calc(700 * var(--fw, 1))", fontSize: "calc(13px * var(--fs, 1))", color: "var(--ink-dim)", textAlign: "right" }}>$0</div>
 
         <svg width={PLOT_W} height={PLOT_H} style={{ position: "absolute", inset: 0, overflow: "visible" }}>
           <polyline points={basePts.join(" ")} fill="none" stroke="var(--ink)" strokeWidth={3} strokeLinejoin="round" strokeLinecap="round" />
@@ -420,8 +420,8 @@ function AxisChart({ frame }: { frame: number }) {
               borderRadius: 8,
               color: "var(--accent-ink)",
               fontFamily: "var(--font-display)",
-              fontWeight: 800,
-              fontSize: 20,
+              fontWeight: "calc(800 * var(--fw, 1))",
+              fontSize: "calc(20px * var(--fs, 1))",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -434,7 +434,7 @@ function AxisChart({ frame }: { frame: number }) {
         )}
 
         {MONTHS.map((m, i) => (
-          <div key={`m${i}`} style={{ position: "absolute", left: xOf(i) - 24, top: PLOT_H + 14, width: 48, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, color: i === DATA.length - 1 ? "var(--accent)" : "var(--ink-dim)" }}>
+          <div key={`m${i}`} style={{ position: "absolute", left: xOf(i) - 24, top: PLOT_H + 14, width: 48, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(11px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: i === DATA.length - 1 ? "var(--accent)" : "var(--ink-dim)" }}>
             {m}
           </div>
         ))}
@@ -463,7 +463,7 @@ export function ChartLive({ params }: { params: Params }) {
       <PreviewChrome index="16" name="CHART LIVE" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 34, whiteSpace: "nowrap", maxWidth: W, overflow: "hidden", textOverflow: "ellipsis" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 34, whiteSpace: "nowrap", maxWidth: W, overflow: "hidden", textOverflow: "ellipsis" }}>
             CHART LIVE · {MODE_LABEL[mode] ?? "OSC STREAM"}
           </div>
           {mode === "dots" ? <DotsChart frame={f} /> : mode === "axis" ? <AxisChart frame={f} /> : <OscChart frame={f} />}

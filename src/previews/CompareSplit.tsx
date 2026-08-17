@@ -85,7 +85,7 @@ export function CompareSplit({ params }: { params: Params }) {
           <span>{leftLabel}</span>
         </div>
         <div className="cs-number">
-          <span className="cs-value" style={{ fontSize: leftFont }}>{leftText}</span>
+          <span className="cs-value" style={{ fontSize: `calc(${leftFont}px * var(--fs, 1))` }}>{leftText}</span>
           {leftUnit && <span className="cs-unit">{leftUnit}</span>}
         </div>
         <div className="cs-desc">{leftDesc}</div>
@@ -96,7 +96,7 @@ export function CompareSplit({ params }: { params: Params }) {
           <span>{rightLabel}</span>
         </div>
         <div className="cs-number">
-          <span className="cs-value" style={{ fontSize: rightFont }}>{rightText}</span>
+          <span className="cs-value" style={{ fontSize: `calc(${rightFont}px * var(--fs, 1))` }}>{rightText}</span>
           {rightUnit && <span className="cs-unit">{rightUnit}</span>}
         </div>
         <div className="cs-desc">{rightDesc}</div>

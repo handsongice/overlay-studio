@@ -70,7 +70,7 @@ export function BraceExpand({ params }: { params: Params }) {
       <PreviewChrome index="08" name="BRACE EXPAND" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 44, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 44, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
 
@@ -93,8 +93,8 @@ export function BraceExpand({ params }: { params: Params }) {
             >
               <div
                 style={{
-                  fontWeight: 800,
-                  fontSize,
+                  fontWeight: "calc(800 * var(--fw, 1))",
+                  fontSize: `calc(${fontSize}px * var(--fs, 1))`,
                   fontFamily: "var(--font-display)",
                   color: "var(--ink)",
                   whiteSpace: "nowrap",
@@ -115,8 +115,8 @@ export function BraceExpand({ params }: { params: Params }) {
                   position: "absolute",
                   left: W / 2,
                   top: "50%",
-                  fontWeight: 800,
-                  fontSize: 44,
+                  fontWeight: "calc(800 * var(--fw, 1))",
+                  fontSize: "calc(44px * var(--fs, 1))",
                   fontFamily: "var(--font-display)",
                   color: "var(--ink)",
                   transform: `translate(-50%,-50%) translateX(${i === 0 ? -x : x}px) scale(${sc})`,

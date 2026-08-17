@@ -286,6 +286,8 @@ function AppearancePanel({
   const text = typeof params.__text === "string" ? params.__text : "";
   const bg = typeof params.__bg === "string" ? params.__bg : "";
   const accent = typeof params.__accent === "string" ? params.__accent : "";
+  const fontSize = Math.min(180, Math.max(60, Number(params.__fontSize ?? 100)));
+  const fontWeight = Math.min(150, Math.max(60, Number(params.__fontWeight ?? 100)));
   const opacity = Math.min(1, Math.max(0.1, Number(params.__opacity ?? 1)));
   const panel = String(params.__panel ?? "glass");
   const panelAlpha = Math.min(1, Math.max(0, Number(params.__panelOpacity ?? 0.45)));
@@ -318,6 +320,62 @@ function AppearancePanel({
             </option>
           ))}
         </select>
+      </div>
+
+      <div className="ctrl">
+        <div className="ctrl-head">
+          <span className="ctrl-label">字号</span>
+          <div className="ctrl-head-right">
+            {fontSize !== 100 && (
+              <button
+                type="button"
+                className="ctrl-reset"
+                onClick={() => onParamChange("__fontSize", 100)}
+              >
+                ↺ 默认
+              </button>
+            )}
+            <span className="ctrl-readout">{fontSize}%</span>
+          </div>
+        </div>
+        <input
+          className="range"
+          type="range"
+          min={60}
+          max={180}
+          step={5}
+          value={fontSize}
+          onChange={(e) => onParamChange("__fontSize", Number(e.target.value))}
+        />
+        <div className="ctrl-hint">整体缩放组件文字，不影响卡片尺寸</div>
+      </div>
+
+      <div className="ctrl">
+        <div className="ctrl-head">
+          <span className="ctrl-label">字重</span>
+          <div className="ctrl-head-right">
+            {fontWeight !== 100 && (
+              <button
+                type="button"
+                className="ctrl-reset"
+                onClick={() => onParamChange("__fontWeight", 100)}
+              >
+                ↺ 默认
+              </button>
+            )}
+            <span className="ctrl-readout">{fontWeight}%</span>
+          </div>
+        </div>
+        <input
+          className="range"
+          type="range"
+          min={60}
+          max={150}
+          step={10}
+          value={fontWeight}
+          onChange={(e) => onParamChange("__fontWeight", Number(e.target.value))}
+        />
+        <div className="ctrl-hint">100% 保持原样，调高更粗、调低更细</div>
       </div>
 
       <ColorRow

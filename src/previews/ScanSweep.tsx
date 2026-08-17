@@ -88,7 +88,7 @@ export function ScanSweep({ params }: { params: Params }) {
       <PreviewChrome index="13" name="SCAN BRACKET" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 26, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 26, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
 
@@ -197,7 +197,7 @@ export function ScanSweep({ params }: { params: Params }) {
             </div>
           </div>
 
-          <div style={{ marginTop: 18, display: "flex", alignItems: "center", gap: 12, fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.3em", color: "var(--ink-dim)" }}>
+          <div style={{ marginTop: 18, display: "flex", alignItems: "center", gap: 12, fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", letterSpacing: "0.3em", color: "var(--ink-dim)" }}>
             <i style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent)", display: "inline-block" }} />
             {caption}
           </div>

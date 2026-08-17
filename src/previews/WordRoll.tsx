@@ -84,11 +84,11 @@ export function WordRoll({ params }: { params: Params }) {
       <PreviewChrome index="10" name="WORD ROLL" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 46, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 46, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 20, opacity: fadeOut }}>
-            <div style={{ fontSize: 34, fontWeight: 700, color: "var(--ink)", letterSpacing: "-0.02em", whiteSpace: "nowrap" }}>
+            <div style={{ fontSize: "calc(34px * var(--fs, 1))", fontWeight: "calc(700 * var(--fw, 1))", color: "var(--ink)", letterSpacing: "-0.02em", whiteSpace: "nowrap" }}>
               {stem}
             </div>
             {/* 三行高遮罩窗口 */}
@@ -116,8 +116,8 @@ export function WordRoll({ params }: { params: Params }) {
                           height: ROW,
                           display: "flex",
                           alignItems: "center",
-                          fontSize: FONT,
-                          fontWeight: 700,
+                          fontSize: `calc(${FONT}px * var(--fs, 1))`,
+                          fontWeight: "calc(700 * var(--fw, 1))",
                           letterSpacing: "-0.02em",
                           filter: `blur(${blur.toFixed(2)}px)`,
                           opacity: op,

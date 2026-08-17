@@ -105,7 +105,7 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
           style={{
             position: "absolute", left: CHART_PAD - 4, top: PLOT_Y + (PLOT_H / 4) * i - 10,
             width: AXIS_W - 8, textAlign: "right", fontFamily: "var(--font-mono)",
-            fontSize: 13, fontWeight: 600, color: "var(--ink-dim)",
+            fontSize: "calc(13px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)",
           }}
         >
           {tickLabel(v)}
@@ -136,7 +136,7 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
               }}
             />
             {pa > 0.92 && (
-              <div style={{ position: "absolute", left: x - 14, bottom: yTo(va) + 6, width: BAR_W + 28, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 800, color: emphasis === "a" ? "var(--accent)" : "var(--ink)", opacity: clamp((pa - 0.92) / 0.08, 0, 1), fontVariantNumeric: "tabular-nums" }}>
+              <div style={{ position: "absolute", left: x - 14, bottom: yTo(va) + 6, width: BAR_W + 28, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(800 * var(--fw, 1))", color: emphasis === "a" ? "var(--accent)" : "var(--ink)", opacity: clamp((pa - 0.92) / 0.08, 0, 1), fontVariantNumeric: "tabular-nums" }}>
                 {fmtNum(va)}
               </div>
             )}
@@ -150,7 +150,7 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
               }}
             />
             {pb > 0.92 && emphasis === "b" && (
-              <div style={{ position: "absolute", left: x + BAR_W + BAR_GAP - 14, bottom: yTo(vb) + 6, width: BAR_W + 28, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 800, color: "var(--accent)", opacity: clamp((pb - 0.92) / 0.08, 0, 1), fontVariantNumeric: "tabular-nums" }}>
+              <div style={{ position: "absolute", left: x + BAR_W + BAR_GAP - 14, bottom: yTo(vb) + 6, width: BAR_W + 28, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(800 * var(--fw, 1))", color: "var(--accent)", opacity: clamp((pb - 0.92) / 0.08, 0, 1), fontVariantNumeric: "tabular-nums" }}>
                 {fmtNum(vb)}
               </div>
             )}
@@ -163,13 +163,13 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
 
       {/* 横轴标签 */}
       {xLabels.slice(0, g).map((lb, i) => (
-        <div key={`xl${i}`} style={{ position: "absolute", left: PLOT_X + i * groupW, top: BASELINE_Y + 12, width: groupW, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, color: "var(--ink-dim)" }}>
+        <div key={`xl${i}`} style={{ position: "absolute", left: PLOT_X + i * groupW, top: BASELINE_Y + 12, width: groupW, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)" }}>
           {lb}
         </div>
       ))}
 
       {/* 图例 */}
-      <div style={{ position: "absolute", right: CHART_PAD, top: 96, display: "flex", gap: 16, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.18em" }}>
+      <div style={{ position: "absolute", right: CHART_PAD, top: 96, display: "flex", gap: 16, fontFamily: "var(--font-mono)", fontSize: "calc(10px * var(--fs, 1))", letterSpacing: "0.18em" }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--ink-dim)" }}>
           <i style={{ width: 14, height: 10, background: colorA, display: "inline-block", borderRadius: 2, opacity: 0.9 }} /> {nameA}
         </span>
@@ -178,7 +178,7 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
         </span>
       </div>
 
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(9px * var(--fs, 1))", letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
         STAGGER · 4×2 BARS
       </div>
     </ChartCard>

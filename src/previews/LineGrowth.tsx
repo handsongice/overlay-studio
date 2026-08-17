@@ -118,7 +118,7 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
           style={{
             position: "absolute", left: CHART_PAD - 4, top: PLOT_Y + (PLOT_H / 4) * i - 10,
             width: AXIS_W - 8, textAlign: "right", fontFamily: "var(--font-mono)",
-            fontSize: 13, fontWeight: 600, color: "var(--ink-dim)",
+            fontSize: "calc(13px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)",
           }}
         >
           {tickLabel(v)}
@@ -168,25 +168,25 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
 
       {/* 端点读数 */}
       {dotB > 0 && (
-        <div style={{ position: "absolute", left: xs[n - 1] - 46, top: ysB[n - 1] + 12, width: 92, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700, color: "var(--ink-dim)", opacity: dotB, fontVariantNumeric: "tabular-nums" }}>
+        <div style={{ position: "absolute", left: xs[n - 1] - 46, top: ysB[n - 1] + 12, width: 92, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(700 * var(--fw, 1))", color: "var(--ink-dim)", opacity: dotB, fontVariantNumeric: "tabular-nums" }}>
           {fmtNum(valsB[n - 1])}
         </div>
       )}
       {dotA > 0 && (
-        <div style={{ position: "absolute", left: xs[n - 1] - 46, top: ysA[n - 1] - 30, width: 92, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 14, fontWeight: 800, color: emphasis === "a" ? "var(--accent)" : "var(--ink)", opacity: dotA, fontVariantNumeric: "tabular-nums" }}>
+        <div style={{ position: "absolute", left: xs[n - 1] - 46, top: ysA[n - 1] - 30, width: 92, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(14px * var(--fs, 1))", fontWeight: "calc(800 * var(--fw, 1))", color: emphasis === "a" ? "var(--accent)" : "var(--ink)", opacity: dotA, fontVariantNumeric: "tabular-nums" }}>
           {fmtNum(valsA[n - 1])}
         </div>
       )}
 
       {/* 横轴标签 */}
       {xLabels.slice(0, n).map((lb, i) => (
-        <div key={`xl${i}`} style={{ position: "absolute", left: xs[i] - 30, top: BASELINE_Y + 12, width: 60, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, color: "var(--ink-dim)" }}>
+        <div key={`xl${i}`} style={{ position: "absolute", left: xs[i] - 30, top: BASELINE_Y + 12, width: 60, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)" }}>
           {lb}
         </div>
       ))}
 
       {/* 图例 */}
-      <div style={{ position: "absolute", right: CHART_PAD, top: 96, display: "flex", gap: 16, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.18em" }}>
+      <div style={{ position: "absolute", right: CHART_PAD, top: 96, display: "flex", gap: 16, fontFamily: "var(--font-mono)", fontSize: "calc(10px * var(--fs, 1))", letterSpacing: "0.18em" }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--ink-dim)" }}>
           <i style={{ width: 14, height: 2, background: colorA, display: "inline-block" }} /> {nameA}
         </span>
@@ -195,7 +195,7 @@ function Chart({ params, emphasis }: { params: Params; emphasis: "a" | "b" }) {
         </span>
       </div>
 
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(9px * var(--fs, 1))", letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
         SVG · PATHLENGTH DRAW
       </div>
     </ChartCard>

@@ -114,8 +114,8 @@ export function ColumnConverge({ params }: { params: Params }) {
 
   const font: CSSProperties = {
     fontFamily: "var(--font-mono)",
-    fontWeight: 500,
-    fontSize: FS,
+    fontWeight: "calc(500 * var(--fw, 1))",
+    fontSize: `calc(${FS}px * var(--fs, 1))`,
     letterSpacing: LSP,
     color: "var(--ink)",
     whiteSpace: "nowrap",
@@ -127,7 +127,7 @@ export function ColumnConverge({ params }: { params: Params }) {
       <PreviewChrome index="11" name="COLUMN CONVERGE" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 52, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 52, whiteSpace: "nowrap" }}>
             SHOT CARD · COLUMN CONVERGE
           </div>
           <div style={{ position: "relative", width: W, height: 90 }}>
@@ -146,7 +146,7 @@ export function ColumnConverge({ params }: { params: Params }) {
                 left: MERGED_LEFT,
                 top: FS + 20,
                 opacity: subOp,
-                fontSize: 22,
+                fontSize: "calc(22px * var(--fs, 1))",
                 letterSpacing: 4,
               }}
             >

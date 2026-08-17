@@ -83,8 +83,8 @@ function Half({ ch, cellW, cellH, fontSize, part }: { ch: string; cellW: number;
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "var(--font-mono)",
-          fontWeight: 700,
-          fontSize,
+          fontWeight: "calc(700 * var(--fw, 1))",
+          fontSize: `calc(${fontSize}px * var(--fs, 1))`,
           color: FLAP_INK,
           fontVariantNumeric: "tabular-nums",
         }}
@@ -174,7 +174,7 @@ export function SplitFlap({ params }: { params: Params }) {
       <PreviewChrome index="09" name="SPLIT FLAP" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 40, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 40, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
           <div style={{ display: "flex", gap, alignItems: "center", transform: `scale(${Math.min(1, W / totalW)})`, transformOrigin: side === "right" ? "right" : "left" }}>

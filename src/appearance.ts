@@ -12,6 +12,8 @@ export const APPEARANCE_KEYS = [
   "__text",
   "__bg",
   "__accent",
+  "__fontSize",
+  "__fontWeight",
   "__opacity",
   "__panel",
   "__panelOpacity",
@@ -97,6 +99,14 @@ export function buildAppearanceStyle(params: Params): CSSProperties {
     st["--surface-2"] = withAlpha(bg, 0.94);
   }
 
+  // 全局字号缩放（60%–180%）：组件内所有字号 × var(--fs)
+  const fs = Math.min(1.8, Math.max(0.6, Number(params.__fontSize ?? 100) / 100));
+  st["--fs"] = String(fs);
+
+  // 全局字重缩放（60%–150%）：组件内所有字重 × var(--fw)
+  const fw = Math.min(1.5, Math.max(0.6, Number(params.__fontWeight ?? 100) / 100));
+  st["--fw"] = String(fw);
+
   const accent = typeof params.__accent === "string" ? params.__accent.trim() : "";
   if (accent) {
     st["--accent"] = accent;
@@ -116,7 +126,8 @@ export function buildAppearanceStyle(params: Params): CSSProperties {
     1,
     Math.max(0, Number(params.__panelOpacity ?? 0.45)),
   );
-  st["--panel-bg"] = "#0a0c11";
+  // 用户设置过背景色时，面板底使用用户颜色（视频叠加时直接可见）
+  st["--panel-bg"] = bg || "#0a0c11";
   st["--panel-alpha"] = panel === "glass" ? String(panelAlpha) : "0";
 
   return st as CSSProperties;

@@ -129,13 +129,13 @@ function Chart({ params }: { params: Params }) {
 
       {/* 中心读数 */}
       <div style={{ position: "absolute", left: CX - 80, top: CY - 58, width: 160, textAlign: "center" }}>
-        <div style={{ fontSize: 40, fontWeight: 800, color: "var(--accent)", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>
+        <div style={{ fontSize: "calc(40px * var(--fs, 1))", fontWeight: "calc(800 * var(--fw, 1))", color: "var(--accent)", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>
           {Math.round(centerValue)}%
         </div>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--ink-dim)", marginTop: 2, fontFamily: "var(--font-mono)", letterSpacing: "0.14em" }}>
+        <div style={{ fontSize: "calc(13px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)", marginTop: 2, fontFamily: "var(--font-mono)", letterSpacing: "0.14em" }}>
           {biggest.name.toUpperCase()}
         </div>
-        <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "var(--ink-faint)", marginTop: 8, fontFamily: "var(--font-mono)" }}>
+        <div style={{ fontSize: "calc(10px * var(--fs, 1))", letterSpacing: "0.3em", color: "var(--ink-faint)", marginTop: 8, fontFamily: "var(--font-mono)" }}>
           {centerLabel.toUpperCase()}
         </div>
       </div>
@@ -152,15 +152,15 @@ function Chart({ params }: { params: Params }) {
             }}
           >
             <i style={{ width: 8, height: 8, borderRadius: 2, background: a.color, display: "inline-block", flexShrink: 0 }} />
-            <span style={{ flex: 1, fontSize: 14, fontWeight: 500, color: "var(--ink)", letterSpacing: "0.01em" }}>{a.name}</span>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 700, color: i === 0 ? "var(--accent)" : "var(--ink-dim)", fontVariantNumeric: "tabular-nums" }}>
+            <span style={{ flex: 1, fontSize: "calc(14px * var(--fs, 1))", fontWeight: "calc(500 * var(--fw, 1))", color: "var(--ink)", letterSpacing: "0.01em" }}>{a.name}</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", fontWeight: "calc(700 * var(--fw, 1))", color: i === 0 ? "var(--accent)" : "var(--ink-dim)", fontVariantNumeric: "tabular-nums" }}>
               {Math.round(a.frac * 100)}%
             </span>
           </div>
         ))}
       </div>
 
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(9px * var(--fs, 1))", letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
         ARC SWEEP · STAGGER
       </div>
     </ChartCard>

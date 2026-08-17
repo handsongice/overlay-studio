@@ -99,7 +99,7 @@ function Chart({ params }: { params: Params }) {
           style={{
             position: "absolute", left: CHART_PAD - 4, top: PLOT_Y + (PLOT_H / 4) * i - 10,
             width: AXIS_W - 8, textAlign: "right", fontFamily: "var(--font-mono)",
-            fontSize: 13, fontWeight: 600, color: "var(--ink-dim)",
+            fontSize: "calc(13px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)",
           }}
         >
           {tickLabel(v)}
@@ -139,22 +139,22 @@ function Chart({ params }: { params: Params }) {
 
       {/* 实时读数 */}
       <div style={{ position: "absolute", right: CHART_PAD, top: 94, textAlign: "right" }}>
-        <div style={{ fontSize: 30, fontWeight: 800, color: "var(--accent)", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>
+        <div style={{ fontSize: "calc(30px * var(--fs, 1))", fontWeight: "calc(800 * var(--fw, 1))", color: "var(--accent)", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>
           {fmtNum(live)}
         </div>
-        <div style={{ fontSize: 10, fontWeight: 600, color: "var(--ink-dim)", marginTop: 2, fontFamily: "var(--font-mono)", letterSpacing: "0.24em" }}>
+        <div style={{ fontSize: "calc(10px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)", marginTop: 2, fontFamily: "var(--font-mono)", letterSpacing: "0.24em" }}>
           GB/S · LIVE
         </div>
       </div>
 
       {/* 横轴标签 */}
       {["-60s", "-45s", "-30s", "-15s", "now"].map((lb, i) => (
-        <div key={`xl${i}`} style={{ position: "absolute", left: PLOT_X + (PLOT_W / 4) * i - 30, top: BASELINE_Y + 12, width: 60, textAlign: i === 4 ? "right" : i === 0 ? "left" : "center", fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, color: "var(--ink-dim)" }}>
+        <div key={`xl${i}`} style={{ position: "absolute", left: PLOT_X + (PLOT_W / 4) * i - 30, top: BASELINE_Y + 12, width: 60, textAlign: i === 4 ? "right" : i === 0 ? "left" : "center", fontFamily: "var(--font-mono)", fontSize: "calc(12px * var(--fs, 1))", fontWeight: "calc(600 * var(--fw, 1))", color: "var(--ink-dim)" }}>
           {lb}
         </div>
       ))}
 
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 12, textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "calc(9px * var(--fs, 1))", letterSpacing: "0.3em", color: "var(--ink-faint)" }}>
         CLIP REVEAL · LIVE HEAD
       </div>
     </ChartCard>

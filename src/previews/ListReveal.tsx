@@ -66,7 +66,7 @@ export function ListReveal({ params }: { params: Params }) {
       <PreviewChrome index="12" name="LIST REVEAL" />
       <SidePanel side={side} width={520} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 46, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 46, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
           <div
@@ -110,7 +110,7 @@ export function ListReveal({ params }: { params: Params }) {
                       opacity: 0.9,
                     }}
                   />
-                  <div style={{ fontFamily: "var(--font-display)", fontWeight: 500, fontSize: 20, lineHeight: 1, color: "var(--ink)", letterSpacing: "0.01em" }}>
+                  <div style={{ fontFamily: "var(--font-display)", fontWeight: "calc(500 * var(--fw, 1))", fontSize: "calc(20px * var(--fs, 1))", lineHeight: 1, color: "var(--ink)", letterSpacing: "0.01em" }}>
                     {s}
                   </div>
                 </div>

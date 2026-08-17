@@ -71,7 +71,7 @@ function MiniDash() {
       </div>
       {/* 左卡片：KPI 数字块（分格 C 的数字区特写锚点） */}
       <div style={{ position: "absolute", left: 96, top: 120, width: 340, height: 150, background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 12, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10 }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: 64, color: "var(--ink)", letterSpacing: "-0.03em", lineHeight: 1 }}>1,284</div>
+        <div style={{ fontFamily: "var(--font-mono)", fontWeight: "calc(700 * var(--fw, 1))", fontSize: "calc(64px * var(--fs, 1))", color: "var(--ink)", letterSpacing: "-0.03em", lineHeight: 1 }}>1,284</div>
         <div style={{ width: 130, height: 6, borderRadius: 3, background: "var(--ink-faint)" }} />
       </div>
       {/* 柱状图 */}
@@ -354,7 +354,7 @@ export function PanelGrid({ params }: { params: Params }) {
       <PreviewChrome index="17" name="PANEL GRID" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: alignRight ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 26, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 26, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
           {mode === "reflow" && <Reflow frame={frame} />}

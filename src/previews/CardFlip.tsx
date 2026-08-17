@@ -124,7 +124,7 @@ export function CardFlip({ params }: { params: Params }) {
       <PreviewChrome index="14" name="CARD FLIP" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 40, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 40, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
           <div style={{ position: "relative", width: CW, height: CH * 3 + GAP * 2 }}>
@@ -162,10 +162,10 @@ export function CardFlip({ params }: { params: Params }) {
                         gap: 18,
                       }}
                     >
-                      <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 72, color: "var(--accent)", letterSpacing: "-0.03em" }}>
+                      <span style={{ fontFamily: "var(--font-display)", fontWeight: "calc(800 * var(--fw, 1))", fontSize: "calc(72px * var(--fs, 1))", color: "var(--accent)", letterSpacing: "-0.03em" }}>
                         {results[i]}
                       </span>
-                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.3em", color: "var(--ink-dim)", alignSelf: "flex-end", marginBottom: 34 }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.3em", color: "var(--ink-dim)", alignSelf: "flex-end", marginBottom: 34 }}>
                         RESULT {String(i + 1).padStart(2, "0")}
                       </span>
                       <Sheen angle={angle} />

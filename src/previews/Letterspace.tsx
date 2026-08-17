@@ -137,7 +137,7 @@ export function Letterspace({ params }: { params: Params }) {
       <PreviewChrome index="07" name="LETTERSPACE" />
       <SidePanel side={side} width={W} align="center">
         <div style={{ display: "flex", flexDirection: "column", alignItems: side === "right" ? "flex-end" : "flex-start" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 34, whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "calc(13px * var(--fs, 1))", letterSpacing: "0.4em", color: "var(--ink-dim)", marginBottom: 34, whiteSpace: "nowrap" }}>
             {eyebrow}
           </div>
           <div style={{ display: "flex", gap, alignItems: "center", height: vbH }}>

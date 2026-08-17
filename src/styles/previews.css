@@ -21,7 +21,7 @@
   inset: 0;
   pointer-events: none;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: calc(11px * var(--fs, 1));
   letter-spacing: 0.26em;
   color: color-mix(in srgb, var(--ink) 22%, transparent);
   z-index: 30;
@@ -50,8 +50,8 @@
   left: 50%;
   bottom: 36px;
   transform: translateX(-50%);
-  font-size: 96px;
-  font-weight: 600;
+  font-size: calc(96px * var(--fs, 1));
+  font-weight: calc(600 * var(--fw, 1));
   letter-spacing: -0.045em;
   color: transparent;
   -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 14%, transparent);
@@ -80,7 +80,7 @@
   align-items: center;
   gap: 18px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: calc(13px * var(--fs, 1));
   letter-spacing: 0.4em;
   color: var(--ink-dim);
   white-space: nowrap;
@@ -112,8 +112,8 @@
   justify-content: flex-end;
 }
 .pf-metric .mf-value {
-  font-size: 118px;
-  font-weight: 200;
+  font-size: calc(118px * var(--fs, 1));
+  font-weight: calc(200 * var(--fw, 1));
   letter-spacing: -0.045em;
   line-height: 0.95;
   color: var(--ink);
@@ -121,8 +121,8 @@
   white-space: nowrap;
 }
 .pf-metric .mf-unit {
-  font-size: 38px;
-  font-weight: 300;
+  font-size: calc(38px * var(--fs, 1));
+  font-weight: calc(300 * var(--fw, 1));
   letter-spacing: 0.02em;
   color: var(--ink-dim);
   line-height: 1;
@@ -171,13 +171,13 @@
 }
 .pf-metric .mf-stat-label {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   letter-spacing: 0.32em;
   color: var(--ink-dim);
 }
 .pf-metric .mf-stat-value {
-  font-size: 24px;
-  font-weight: 400;
+  font-size: calc(24px * var(--fs, 1));
+  font-weight: calc(400 * var(--fw, 1));
   letter-spacing: 0.01em;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
@@ -213,7 +213,7 @@
   align-items: center;
   gap: 16px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: calc(13px * var(--fs, 1));
   letter-spacing: 0.34em;
   color: var(--ink-dim);
 }
@@ -228,7 +228,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   letter-spacing: 0;
   color: var(--ink);
   flex: none;
@@ -248,8 +248,8 @@
   flex-direction: row-reverse;
 }
 .pf-compare .cs-value {
-  font-size: 100px;
-  font-weight: 200;
+  font-size: calc(100px * var(--fs, 1));
+  font-weight: calc(200 * var(--fw, 1));
   letter-spacing: -0.04em;
   line-height: 0.95;
   color: var(--ink);
@@ -260,8 +260,8 @@
   color: var(--accent);
 }
 .pf-compare .cs-unit {
-  font-size: 26px;
-  font-weight: 300;
+  font-size: calc(26px * var(--fs, 1));
+  font-weight: calc(300 * var(--fw, 1));
   color: var(--ink-dim);
   line-height: 1;
   padding-bottom: 8px;
@@ -270,8 +270,8 @@
 
 .pf-compare .cs-desc {
   margin-top: 30px;
-  font-size: 16px;
-  font-weight: 300;
+  font-size: calc(16px * var(--fs, 1));
+  font-weight: calc(300 * var(--fw, 1));
   line-height: 1.75;
   color: var(--ink-dim);
   letter-spacing: 0.01em;
@@ -294,7 +294,7 @@
   align-items: center;
   gap: 26px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   letter-spacing: 0.34em;
   color: var(--accent);
   white-space: nowrap;
@@ -356,7 +356,7 @@
   align-items: center;
   gap: 14px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   letter-spacing: 0.4em;
   color: var(--ink-dim);
   animation: pf-fade-up 0.7s var(--ease-out) var(--d, 0.1s) both;
@@ -384,8 +384,8 @@
   animation: pf-mask-up 0.95s var(--ease-out) var(--d, 0.18s) both;
 }
 .pf-quote .ql-text {
-  font-size: 60px;
-  font-weight: 300;
+  font-size: calc(60px * var(--fs, 1));
+  font-weight: calc(300 * var(--fw, 1));
   letter-spacing: -0.012em;
   line-height: 1.32;
   color: var(--ink);
@@ -414,14 +414,14 @@
   justify-content: center;
 }
 .pf-quote .ql-author {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: calc(20px * var(--fs, 1));
+  font-weight: calc(500 * var(--fw, 1));
   letter-spacing: 0.05em;
   color: var(--ink);
 }
 .pf-quote .ql-role {
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: calc(12.5px * var(--fs, 1));
   letter-spacing: 0.22em;
   color: var(--ink-dim);
 }
@@ -504,7 +504,7 @@
   justify-content: center;
   gap: 16px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: calc(10px * var(--fs, 1));
   letter-spacing: 0.42em;
   color: color-mix(in srgb, var(--ink) 30%, transparent);
   white-space: nowrap;
@@ -563,7 +563,7 @@
 
 .pf-blur .bs-eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   letter-spacing: 0.4em;
   color: var(--ink-dim);
   margin-bottom: 46px;
@@ -594,15 +594,15 @@
   will-change: transform, opacity, filter;
 }
 .pf-blur .bs-headline .bs-word {
-  font-size: 58px;
-  font-weight: 300;
+  font-size: calc(58px * var(--fs, 1));
+  font-weight: calc(300 * var(--fw, 1));
   letter-spacing: -0.02em;
   line-height: 1.18;
   color: var(--ink);
 }
 .pf-blur .bs-subtitle .bs-word {
-  font-size: 20px;
-  font-weight: 400;
+  font-size: calc(20px * var(--fs, 1));
+  font-weight: calc(400 * var(--fw, 1));
   letter-spacing: 0.01em;
   line-height: 1.5;
   color: var(--ink-dim);
@@ -653,7 +653,7 @@
 
 .pf-odometer .od-eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   letter-spacing: 0.4em;
   color: var(--ink-dim);
   margin-bottom: 34px;
@@ -696,8 +696,8 @@
   align-items: center;
   gap: 16px;
   margin-top: 26px;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: calc(15px * var(--fs, 1));
+  font-weight: calc(400 * var(--fw, 1));
   letter-spacing: 0.02em;
   color: var(--ink-dim);
   animation: pf-fade-up 0.8s var(--ease-out) var(--d, 1.6s) both;
@@ -731,15 +731,15 @@
 
 .pf-scrub .sc-eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   letter-spacing: 0.4em;
   color: var(--ink-dim);
   margin-bottom: 14px;
   animation: pf-fade-up 0.7s var(--ease-out) var(--d, 0.1s) both;
 }
 .pf-scrub .sc-caption {
-  font-size: 24px;
-  font-weight: 300;
+  font-size: calc(24px * var(--fs, 1));
+  font-weight: calc(300 * var(--fw, 1));
   letter-spacing: 0.01em;
   color: var(--ink);
   margin-bottom: 22px;
@@ -916,7 +916,7 @@
   position: absolute;
   top: 14px;
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: calc(9.5px * var(--fs, 1));
   letter-spacing: 0.26em;
   padding: 6px 12px;
   border-radius: 6px;
@@ -932,7 +932,7 @@
   right: 14px;
   background: var(--accent);
   color: var(--accent-ink);
-  font-weight: 600;
+  font-weight: calc(600 * var(--fw, 1));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -986,8 +986,8 @@
   gap: 12px;
 }
 .chart-card-title {
-  font-size: 21px;
-  font-weight: 700;
+  font-size: calc(21px * var(--fs, 1));
+  font-weight: calc(700 * var(--fw, 1));
   color: var(--ink);
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -995,8 +995,8 @@
   text-overflow: ellipsis;
 }
 .chart-card-sub {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: calc(13px * var(--fs, 1));
+  font-weight: calc(500 * var(--fw, 1));
   color: var(--ink-dim);
   margin-top: 5px;
   font-family: var(--font-mono);
@@ -1007,7 +1007,7 @@
 }
 .chart-card-tag {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: calc(9px * var(--fs, 1));
   letter-spacing: 0.2em;
   color: var(--ink-dim);
   padding: 4px 10px;
@@ -1052,14 +1052,14 @@
 }
 .bb-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: calc(10px * var(--fs, 1));
   letter-spacing: 0.26em;
   color: var(--ink-dim);
   margin-bottom: 6px;
 }
 .bb-value {
-  font-size: 34px;
-  font-weight: 800;
+  font-size: calc(34px * var(--fs, 1));
+  font-weight: calc(800 * var(--fw, 1));
   color: var(--ink);
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
@@ -1080,15 +1080,15 @@
   transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
 }
 .bb-stat-value {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: calc(20px * var(--fs, 1));
+  font-weight: calc(700 * var(--fw, 1));
   color: var(--ink);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
 .bb-stat-name {
-  font-size: 11px;
+  font-size: calc(11px * var(--fs, 1));
   color: var(--ink-dim);
   margin-top: 3px;
   white-space: nowrap;
@@ -1101,7 +1101,7 @@
   display: flex;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: calc(9px * var(--fs, 1));
   letter-spacing: 0.2em;
   color: var(--ink-dim);
   margin-bottom: 8px;
@@ -1134,12 +1134,12 @@
 }
 .tl-title {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: calc(10px * var(--fs, 1));
   letter-spacing: 0.26em;
   color: var(--ink-dim);
 }
 .tl-sub {
-  font-size: 12px;
+  font-size: calc(12px * var(--fs, 1));
   color: var(--text-3);
   margin-top: 3px;
   font-family: var(--font-mono);
@@ -1174,8 +1174,8 @@
   transition: opacity 0.3s var(--ease-out);
 }
 .tl-node-label {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: calc(12px * var(--fs, 1));
+  font-weight: calc(600 * var(--fw, 1));
   color: var(--ink-dim);
   white-space: nowrap;
   transition: color 0.3s var(--ease-out);
@@ -1198,7 +1198,7 @@
 }
 .tl-node-value {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: calc(10px * var(--fs, 1));
   letter-spacing: 0.14em;
   color: var(--ink-dim);
   margin-top: 5px;
@@ -1221,11 +1221,31 @@
 .mini-frame .bb-card,
 .mini-frame .tl-card,
 .mini-frame .sc-card,
-.mini-frame .pf-compare .cs-side {
+.mini-frame .pf-compare .cs-side,
+.mini-frame .pf-metric .mf-content,
+.mini-frame .pf-quote .ql-content {
   box-shadow: inset 0 0 0 9999px
     color-mix(
       in srgb,
       var(--panel-bg, #0a0c11) calc(var(--panel-alpha, 0) * 100%),
       transparent
     );
+}
+
+/* 文本类组件的底衬更像一张卡：圆角 + 内边距（不改变定位/宽度） */
+.mini-frame .pf-metric .mf-content,
+.mini-frame .pf-quote .ql-content {
+  border-radius: 16px;
+  padding: 30px 34px;
+  box-sizing: border-box;
+}
+.mini-frame .pf-compare .cs-side {
+  border-radius: 14px;
+  padding: 28px 30px;
+  box-sizing: border-box;
+}
+/* 居中金句的底衬不宜贴满，收窄成卡片 */
+.mini-frame .pf-quote .ql-content.ql-center {
+  width: auto;
+  max-width: 720px;
 }
