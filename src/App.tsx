@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TopBar, type ThemeId } from "./components/TopBar";
 import type { SafeZoneState } from "./components/SafeZoneGroup";
 import { ShotLibrary } from "./shots/ShotLibrary";
@@ -283,6 +283,17 @@ export default function App() {
     [composeItems, paramsMap, project],
   );
 
+  /** 导出时长 = 画布所有组件中结束时间最晚的那个（组件缺省 end 按项目时长）；
+      有卡片时不再用项目/视频总时长，避免导出大量无内容的空帧 */
+  const overlayEnd = useMemo(() => {
+    const dur = project?.duration ?? 10;
+    if (!composeItems.length) return dur;
+    return composeItems.reduce(
+      (m, it) => Math.max(m, it.end ?? dur),
+      0,
+    );
+  }, [composeItems, project]);
+
   const openFromLibrary = useCallback(
     (id: string) => {
       setView("preview");
@@ -411,6 +422,7 @@ export default function App() {
             open={exportOpen}
             hasItems={composeItems.length > 0}
             projectDuration={project?.duration ?? 10}
+            overlayDuration={overlayEnd}
             onClose={closeExport}
             replay={replayCompose}
             onDone={handleExportDone}

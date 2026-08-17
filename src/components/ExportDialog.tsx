@@ -18,8 +18,10 @@ const FPS_OPTIONS = [24, 30, 60] as const;
 interface ExportDialogProps {
   open: boolean;
   hasItems: boolean;
-  /** 项目总时长（秒）：导出时长以它为准 */
+  /** 项目总时长（秒）：仅用于展示与兜底 */
   projectDuration: number;
+  /** 导出时长（秒）：由画布上结束时间最晚的组件决定 */
+  overlayDuration: number;
   onClose: () => void;
   /** 重放画布动画（App 持有 runId，让预览台重新挂载所有卡片） */
   replay: () => void;
@@ -44,6 +46,7 @@ export function ExportDialog({
   open,
   hasItems,
   projectDuration,
+  overlayDuration,
   onClose,
   replay,
   onDone,
@@ -57,7 +60,7 @@ export function ExportDialog({
   const [last, setLast] = useState<ExportResult | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
-  /* 打开时重置，导出时长 = 项目总时长 */
+  /* 打开时重置，导出时长 = 画布上结束时间最晚的组件 */
   useEffect(() => {
     if (!open) return;
     setRunning(false);
@@ -65,8 +68,8 @@ export function ExportDialog({
     setError(null);
     setLast(null);
     abortRef.current = null;
-    setDuration(Math.max(0.1, projectDuration));
-  }, [open, projectDuration]);
+    setDuration(Math.max(0.1, overlayDuration));
+  }, [open, overlayDuration]);
 
   const totalFrames = useMemo(
     () => Math.max(1, Math.round(duration * fps)),
@@ -185,11 +188,17 @@ export function ExportDialog({
               ≈ {totalFrames.toLocaleString()} 帧 · 1920×1080
             </span>
           </div>
+          {projectDuration > duration + 0.05 && (
+            <div className="export-note">
+              项目总时长 {projectDuration.toFixed(1)} 秒，但画布上最晚结束的组件为{" "}
+              {duration.toFixed(1)} 秒，仅导出到 {duration.toFixed(1)} 秒，避免无用空帧。
+            </div>
+          )}
 
           <div className="export-hint">
             <i />
-            按画布当前时间逐帧渲染动画，导出时长与项目总时长一致
-            （含导入视频对齐后的完整时长），完成后自动保存到系统{" "}
+            导出时长由画布上<b>结束时间最晚的组件</b>决定（而非视频/项目总时长），
+            完成后自动保存到系统{" "}
             <b>下载</b>文件夹
             <code>overlay-studio-transparent.mov</code>
             （PNG codec 透明视频，可直接拖入剪映 / PR / FCP 叠加）。

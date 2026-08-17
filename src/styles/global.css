@@ -2066,6 +2066,18 @@ body {
   font-size: 10px;
   color: var(--text-2);
 }
+.export-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 11px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-3);
+}
 
 .export-progress {
   display: flex;
