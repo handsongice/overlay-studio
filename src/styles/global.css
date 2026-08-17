@@ -217,8 +217,8 @@ body {
   appearance: none;
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 4px 10px;
+  gap: 0;
+  padding: 4px 5px;
   border: 1px solid transparent;
   border-radius: 999px;
   background: transparent;
@@ -231,8 +231,8 @@ body {
     border-color 0.2s var(--ease-out);
 }
 .theme-btn i {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   border: 1px solid var(--line-strong);
 }
@@ -260,19 +260,23 @@ body {
   flex: none;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 0 16px;
+  gap: 12px;
+  padding: 0 12px;
   background: rgba(5, 5, 6, 0.92);
   border-bottom: 1px solid var(--line);
   position: relative;
   z-index: 10;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
+.topbar::-webkit-scrollbar { display: none; }
 
 .topbar-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-width: 0;
+  gap: 10px;
+  flex: none;
 }
 
 .topbar-mark {
@@ -297,8 +301,8 @@ body {
 
 .topbar-title {
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.32em;
+  font-size: 11px;
+  letter-spacing: 0.22em;
   color: var(--text-1);
   white-space: nowrap;
 }

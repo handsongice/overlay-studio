@@ -669,6 +669,7 @@
   background: var(--bg-1);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
+  flex: none;
 }
 .topbar-tab {
   height: 26px;
@@ -680,6 +681,8 @@
   font-size: 12px;
   letter-spacing: 0.06em;
   cursor: pointer;
+  white-space: nowrap;
+  flex: none;
   transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out);
 }
 .topbar-tab:hover {

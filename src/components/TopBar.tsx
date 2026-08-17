@@ -81,7 +81,7 @@ export function TopBar({
           <i />
           <i />
         </div>
-        <span className="topbar-title">OVERLAY·STUDIO</span>
+        <span className="topbar-title">OVERLAY</span>
       </div>
       <div className="topbar-tabs" role="tablist">
         <button
@@ -133,7 +133,7 @@ export function TopBar({
           onClick={onAlignToVideo}
           title={video ? "以导入视频时长对齐项目时长" : "先导入视频，再对齐时长"}
         >
-          ⏱ 对齐视频
+          对齐视频
         </button>
         <button
           type="button"
@@ -141,7 +141,7 @@ export function TopBar({
           onClick={onNewProject}
           title="新建项目：重置名称/时长并清空画布"
         >
-          ＋ 新建项目
+          新建项目
         </button>
       </div>
       <div className="topbar-video">
@@ -175,7 +175,7 @@ export function TopBar({
               onClick={() => overlayJsonRef.current?.click()}
               title="导入《特效生成》Skill 生成的 overlay JSON（带时间轴）"
             >
-              ⇩ 导入特效 JSON
+              导入 JSON
             </button>
             {importStatus && (
               <span
@@ -223,7 +223,7 @@ export function TopBar({
                 : "画布为空，请先添加动效卡片"
             }
           >
-            {exporting ? "⏳ 导出中…" : "⇪ 导出透明动效层"}
+            {exporting ? "⏳ 导出中…" : "导出动效层"}
           </button>
           {exportResult && !exporting && (
             <span className="topbar-export-result" title={exportResult}>
@@ -240,7 +240,7 @@ export function TopBar({
           onClick={onOpenGuide}
           title="使用说明与快捷键"
         >
-          ? 使用说明
+          说明
         </button>
       )}
       <div className="theme-switch" role="group" aria-label="配色主题">
@@ -254,7 +254,6 @@ export function TopBar({
             onClick={() => onThemeChange(t.id)}
           >
             <i />
-            <span>{t.label}</span>
           </button>
         ))}
       </div>
