@@ -2104,13 +2104,31 @@ body {
   color: var(--text-2);
 }
 .export-done {
-  padding: 9px 11px;
+  padding: 10px 12px;
   border: 1px solid var(--line-strong);
   border-radius: 8px;
   font-family: var(--font-mono);
   font-size: 10.5px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--accent);
+}
+.export-done-line {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-2);
+}
+.export-done-path {
+  margin-top: 5px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-1);
+  word-break: break-all;
+  line-height: 1.5;
+}
+.export-done-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
 }
 
 .export-foot {

@@ -34,6 +34,11 @@ function fmtElapsed(ms?: number): string {
   return `${Math.floor(s / 60)}m${Math.floor(s % 60).toString().padStart(2, "0")}s`;
 }
 
+/** 桌面版（Electron）才有的保存能力 */
+function hasDesktopBridge(): boolean {
+  return typeof window !== "undefined" && !!window.overlayStudio;
+}
+
 export function ExportDialog({
   open,
   hasItems,
@@ -182,7 +187,8 @@ export function ExportDialog({
 
           <div className="export-hint">
             <i />
-            按画布当前时间逐帧渲染动画，完成后自动下载{" "}
+            按画布当前时间逐帧渲染动画，完成后自动保存到系统{" "}
+            <b>下载</b>文件夹
             <code>overlay-studio-transparent.mov</code>
             （PNG codec 透明视频，可直接拖入剪映 / PR / FCP 叠加）。
             超出 1800 帧自动截断。
@@ -204,7 +210,38 @@ export function ExportDialog({
 
           {last && !running && !error && (
             <div className="export-done">
-              ✓ 已导出透明 MOV 视频（{last.frames} 帧），已开始下载
+              {last.savedPath ? (
+                <>
+                  <div className="export-done-line">
+                    ✓ 已导出并保存到
+                  </div>
+                  <div className="export-done-path" title={last.savedPath}>
+                    {last.savedPath}
+                  </div>
+                  {hasDesktopBridge() && (
+                    <div className="export-done-actions">
+                      <button
+                        type="button"
+                        className="btn btn-sm"
+                        onClick={() => window.overlayStudio!.showItemInFolder(last.savedPath!)}
+                        title="在 Finder / 资源管理器中显示该文件"
+                      >
+                        📂 打开所在文件夹
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm"
+                        onClick={() => window.overlayStudio!.openPath(last.savedPath!)}
+                        title="用系统默认播放器打开查看"
+                      >
+                        ▶ 查看视频
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>✓ 已导出透明 MOV 视频（{last.frames} 帧），已开始下载</>
+              )}
             </div>
           )}
         </div>
@@ -226,11 +263,11 @@ export function ExportDialog({
                 disabled={!hasItems}
                 title={
                   hasItems
-                    ? "渲染透明 MOV 视频并自动下载"
+                    ? "渲染透明 MOV 视频并保存到下载文件夹"
                     : "画布为空，请先添加动效卡片"
                 }
               >
-                ⇪ 开始导出
+                {last ? "⇪ 再导一次" : "⇪ 开始导出"}
               </button>
             </>
           )}

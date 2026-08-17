@@ -41,6 +41,8 @@ export interface ExportResult {
   bytes: number;
   /** 导出产物为透明 MOV 视频（PNG codec） */
   video: boolean;
+  /** 桌面版：文件实际保存路径（系统下载文件夹），浏览器版无此字段 */
+  savedPath?: string;
 }
 
 /* ---------- CSS 收集 ---------- */
@@ -458,8 +460,43 @@ export async function runOverlayExport(
     message: "正在封装透明 MOV 视频…",
   });
   const mov = await muxPngFramesToMov(frames, fps, EXPORT_W, EXPORT_H);
-  downloadBlob(mov, "overlay-studio-transparent.mov");
 
+  // 桌面版（Electron）：通过 preload 桥流式写入系统「下载」文件夹，
+  // 直接拿到保存路径，完成后可「打开所在文件夹 / 查看视频」
+  const bridge = (window as unknown as { overlayStudio?: OverlayBridge }).overlayStudio;
+  if (bridge?.saveMovStart) {
+    const start = await bridge.saveMovStart("overlay-studio-transparent.mov");
+    if (!start.ok || !start.filePath) {
+      throw new Error(start.error || "无法创建保存文件");
+    }
+    const savePath: string = start.filePath;
+    try {
+      let written = 0;
+      const reader = mov.stream().getReader();
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        written += value.byteLength;
+        const r = await bridge.saveMovChunk(savePath, new Uint8Array(value));
+        if (!r.ok) throw new Error(r.error || "写入文件失败");
+      }
+      const end = await bridge.saveMovEnd(savePath, written);
+      if (!end.ok || !end.filePath) throw new Error(end.error || "保存文件失败");
+      onProgress({
+        phase: "done",
+        frame: saved,
+        total,
+        message: `已保存到：${end.filePath}`,
+      });
+      return { frames: saved, bytes, video: true, savedPath: end.filePath };
+    } catch (e) {
+      await bridge.saveMovAbort(savePath).catch(() => {});
+      throw e;
+    }
+  }
+
+  // 浏览器版兜底：触发下载
+  downloadBlob(mov, "overlay-studio-transparent.mov");
   return { frames: saved, bytes, video: true };
   } finally {
     // 导出结束（含中止/异常）：恢复实时时钟

@@ -107,7 +107,9 @@ export default function App() {
 
   const handleExportDone = useCallback((r: ExportResult) => {
     setExportResult(
-      `已导出透明 MOV 视频（${r.frames} 帧）`,
+      r.savedPath
+        ? `已导出（${r.frames} 帧）→ ${r.savedPath}`
+        : `已导出透明 MOV 视频（${r.frames} 帧）`,
     );
   }, []);
 
