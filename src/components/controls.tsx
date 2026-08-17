@@ -286,6 +286,9 @@ function AppearancePanel({
   const text = typeof params.__text === "string" ? params.__text : "";
   const bg = typeof params.__bg === "string" ? params.__bg : "";
   const accent = typeof params.__accent === "string" ? params.__accent : "";
+  const opacity = Math.min(1, Math.max(0.1, Number(params.__opacity ?? 1)));
+  const panel = String(params.__panel ?? "glass");
+  const panelAlpha = Math.min(1, Math.max(0, Number(params.__panelOpacity ?? 0.45)));
 
   return (
     <div className="ctrl-group">
@@ -335,6 +338,86 @@ function AppearancePanel({
         onChange={(v) => onParamChange("__accent", v)}
         onReset={() => onParamChange("__accent", "")}
       />
+
+      <div className="ctrl">
+        <div className="ctrl-head">
+          <span className="ctrl-label">不透明度</span>
+          <div className="ctrl-head-right">
+            {opacity !== 1 && (
+              <button
+                type="button"
+                className="ctrl-reset"
+                onClick={() => onParamChange("__opacity", 1)}
+              >
+                ↺ 默认
+              </button>
+            )}
+            <span className="ctrl-readout">{Math.round(opacity * 100)}%</span>
+          </div>
+        </div>
+        <input
+          className="range"
+          type="range"
+          min={0.1}
+          max={1}
+          step={0.05}
+          value={opacity}
+          onChange={(e) => onParamChange("__opacity", Number(e.target.value))}
+        />
+        <div className="ctrl-hint">整体透明度，视频叠加时可调低避免遮挡</div>
+      </div>
+
+      <div className="ctrl">
+        <div className="ctrl-head">
+          <span className="ctrl-label">面板底</span>
+          {panel !== "glass" && (
+            <button
+              type="button"
+              className="ctrl-reset"
+              onClick={() => onParamChange("__panel", "glass")}
+            >
+              ↺ 默认
+            </button>
+          )}
+        </div>
+        <select
+          className="select"
+          value={panel}
+          onChange={(e) => onParamChange("__panel", e.target.value)}
+        >
+          <option value="glass">玻璃底（深色半透明）</option>
+          <option value="none">纯透明（无底衬）</option>
+        </select>
+        <div className="ctrl-hint">给图表/卡片加一层深色底衬，叠加到亮色视频上更清晰</div>
+      </div>
+
+      <div className="ctrl">
+        <div className="ctrl-head">
+          <span className="ctrl-label">面板底透明度</span>
+          <div className="ctrl-head-right">
+            {panelAlpha !== 0.45 && (
+              <button
+                type="button"
+                className="ctrl-reset"
+                onClick={() => onParamChange("__panelOpacity", 0.45)}
+              >
+                ↺ 默认
+              </button>
+            )}
+            <span className="ctrl-readout">{Math.round(panelAlpha * 100)}%</span>
+          </div>
+        </div>
+        <input
+          className="range"
+          type="range"
+          min={0}
+          max={1}
+          step={0.05}
+          value={panelAlpha}
+          disabled={panel === "none"}
+          onChange={(e) => onParamChange("__panelOpacity", Number(e.target.value))}
+        />
+      </div>
     </div>
   );
 }

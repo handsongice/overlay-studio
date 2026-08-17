@@ -905,6 +905,20 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.ctrl-head-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+.ctrl-hint {
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  color: var(--text-4);
+  margin-top: 7px;
+}
 
 .ctrl-toggle {
   display: flex;
@@ -1037,6 +1051,16 @@ body {
   height: 2px;
   background: #26262c;
   border-radius: 2px;
+}
+.range:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.range:disabled::-webkit-slider-thumb {
+  background: var(--text-3);
+}
+.range:disabled::-moz-range-thumb {
+  background: var(--text-3);
 }
 .range::-moz-range-thumb {
   width: 12px;
@@ -1731,12 +1755,11 @@ body {
   text-overflow: ellipsis;
 }
 
-/* 视频叠加：动效卡半透明，不遮挡视频 */
+/* 视频叠加：整幅预览底透明，露出原视频画面；
+   组件本身的透明度由外观面板「不透明度」按卡片控制，
+   面板底由「面板底 / 面板底透明度」控制（见 previews.css）。 */
 .compose-has-video .mini-frame > * {
   background: transparent;
-}
-.compose-has-video .mini-frame {
-  opacity: 0.82;
 }
 .compose-has-video .chart-card,
 .compose-has-video .bb-card,

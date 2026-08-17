@@ -7,7 +7,15 @@ import type { Params } from "./types";
    CSS 变量覆盖 —— 预览组件全部基于设计令牌取色，一处覆盖全局生效。
    ============================================================ */
 
-export const APPEARANCE_KEYS = ["__font", "__text", "__bg", "__accent"] as const;
+export const APPEARANCE_KEYS = [
+  "__font",
+  "__text",
+  "__bg",
+  "__accent",
+  "__opacity",
+  "__panel",
+  "__panelOpacity",
+] as const;
 
 export interface FontOption {
   value: string;
@@ -95,6 +103,21 @@ export function buildAppearanceStyle(params: Params): CSSProperties {
     st["--accent-ink"] = readableInk(accent);
     st["--accent-soft"] = withAlpha(accent, 0.16);
   }
+
+  // 组件级整体不透明度（0.1–1，默认 1）
+  // 始终内联写入（含默认 1），覆盖视频模式下 .compose-has-video
+  // 的全局 0.82，让「不透明度」滑杆对组件真正生效。
+  const opacity = Math.min(1, Math.max(0.1, Number(params.__opacity ?? 1)));
+  st.opacity = String(opacity);
+
+  // 面板底：glass = 半透明深色玻璃（叠加到视频上保证可读），none = 纯透明
+  const panel = String(params.__panel ?? "glass");
+  const panelAlpha = Math.min(
+    1,
+    Math.max(0, Number(params.__panelOpacity ?? 0.45)),
+  );
+  st["--panel-bg"] = "#0a0c11";
+  st["--panel-alpha"] = panel === "glass" ? String(panelAlpha) : "0";
 
   return st as CSSProperties;
 }
