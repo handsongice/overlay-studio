@@ -9,7 +9,7 @@
 
 const TIMESCALE = 600;
 
-function u32(v: number): Uint8Array {
+export function u32(v: number): Uint8Array {
   const b = new Uint8Array(4);
   new DataView(b.buffer).setUint32(0, v >>> 0);
   return b;
@@ -45,7 +45,7 @@ const MATRIX_IDENTITY = concat(
   u32(0), u32(0), u32(0x40000000),
 );
 
-function buildMoov(
+export function buildMovMoov(
   frameCount: number,
   fps: number,
   width: number,
@@ -165,6 +165,24 @@ function buildMoov(
   return box("moov", mvhd, trak);
 }
 
+/** MOV 文件头部：ftyp + mdat 占位（mdat size 先写 0，封装完成后按实际字节补写） */
+export function buildMovHeader(): Uint8Array {
+  const ftyp = box(
+    "ftyp",
+    new TextEncoder().encode("qt  "),
+    u32(0),
+    new TextEncoder().encode("qt  "),
+  );
+  const mdat = concat(u32(0), new TextEncoder().encode("mdat"));
+  return concat(ftyp, mdat);
+}
+
+/** 文件头部里 mdat size 字段的字节偏移（4 字节大端） */
+export const MOV_MDAT_SIZE_OFFSET = 20;
+
+/** mdat 载荷（第一帧 PNG）在文件中的起始偏移 */
+export const MOV_MDAT_PAYLOAD_START = MOV_MDAT_SIZE_OFFSET + 8;
+
 /** 把 PNG 帧 Blob 列表封装为透明 MOV 视频 Blob */
 export async function muxPngFramesToMov(
   frames: Blob[],
@@ -174,34 +192,23 @@ export async function muxPngFramesToMov(
 ): Promise<Blob> {
   if (frames.length === 0) throw new Error("没有可封装的帧");
 
-  // ftyp
-  const ftyp = box(
-    "ftyp",
-    new TextEncoder().encode("qt  "),
-    u32(0),
-    new TextEncoder().encode("qt  "),
-  );
-
-  // mdat：帧直接作为 Blob 部件拼接（不整段复制字节）
+  const header = buildMovHeader();
   const payloadSize = frames.reduce((n, f) => n + f.size, 0);
   const mdatSize = 8 + payloadSize;
-  const mdat = new Blob([
-    u32(mdatSize),
-    new TextEncoder().encode("mdat"),
-    ...frames,
-  ]);
 
-  // stco offsets：文件 = ftyp + mdat(8 + payload)，帧从 mdat payload 起始
-  const mdatPayloadStart = ftyp.length + 8;
+  // stco offsets：文件 = header(ftyp + mdat header) + 帧，帧从 mdat payload 起始
   const offsets: number[] = [];
   const sizes: number[] = [];
   let cursor = 0;
   for (const f of frames) {
-    offsets.push(mdatPayloadStart + cursor);
+    offsets.push(MOV_MDAT_PAYLOAD_START + cursor);
     sizes.push(f.size);
     cursor += f.size;
   }
 
-  const moov = buildMoov(frames.length, fps, width, height, offsets, sizes);
-  return new Blob([ftyp, mdat, moov], { type: "video/quicktime" });
+  const moov = buildMovMoov(frames.length, fps, width, height, offsets, sizes);
+  // 补写 mdat size（header 复制一份，避免改动共享缓冲）
+  const hdr = new Uint8Array(header);
+  new DataView(hdr.buffer).setUint32(MOV_MDAT_SIZE_OFFSET, mdatSize);
+  return new Blob([hdr, ...frames, moov], { type: "video/quicktime" });
 }

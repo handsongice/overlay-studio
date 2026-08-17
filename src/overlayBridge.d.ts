@@ -17,8 +17,16 @@ declare global {
   }
 
   interface OverlayBridge {
-    saveMovStart(filename: string): Promise<SaveMovStartResult>;
+    saveMovStart(
+      filename: string,
+      header?: Uint8Array,
+    ): Promise<SaveMovStartResult>;
     saveMovChunk(filePath: string, chunk: Uint8Array): Promise<SaveMovChunkResult>;
+    saveMovPatch(
+      filePath: string,
+      offset: number,
+      bytes: Uint8Array,
+    ): Promise<SaveMovChunkResult>;
     saveMovEnd(filePath: string, bytes: number): Promise<SaveMovEndResult>;
     saveMovAbort(filePath: string): Promise<{ ok: boolean }>;
     showItemInFolder(p: string): Promise<boolean>;

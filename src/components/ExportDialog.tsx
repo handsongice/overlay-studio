@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  BROWSER_MAX_FRAMES,
   runOverlayExport,
   type ExportProgress,
   type ExportResult,
@@ -187,11 +188,23 @@ export function ExportDialog({
 
           <div className="export-hint">
             <i />
-            按画布当前时间逐帧渲染动画，完成后自动保存到系统{" "}
+            按画布当前时间逐帧渲染动画，导出时长与项目总时长一致
+            （含导入视频对齐后的完整时长），完成后自动保存到系统{" "}
             <b>下载</b>文件夹
             <code>overlay-studio-transparent.mov</code>
             （PNG codec 透明视频，可直接拖入剪映 / PR / FCP 叠加）。
-            超出 1800 帧自动截断。
+            {hasDesktopBridge() ? (
+              <>
+                {" "}
+                桌面版为流式写盘，<b>无帧数上限</b>。
+              </>
+            ) : (
+              <>
+                {" "}
+                浏览器版单次最多导出 {BROWSER_MAX_FRAMES.toLocaleString()} 帧（约{" "}
+                {(BROWSER_MAX_FRAMES / fps).toFixed(0)} 秒），超出部分截断，建议使用桌面版导出完整时长。
+              </>
+            )}
           </div>
 
           {phaseText && (

@@ -10,7 +10,14 @@
    ============================================================ */
 
 import { downloadBlob } from "./lib/zip";
-import { muxPngFramesToMov } from "./movMux";
+import {
+  buildMovHeader,
+  buildMovMoov,
+  MOV_MDAT_SIZE_OFFSET,
+  MOV_MDAT_PAYLOAD_START,
+  muxPngFramesToMov,
+  u32,
+} from "./movMux";
 import { setAnimClockOverride } from "./lib/motion";
 import { flushSync } from "react-dom";
 
@@ -18,7 +25,8 @@ export const EXPORT_W = 1920;
 export const EXPORT_H = 1080;
 
 const MAX_INFLIGHT = 3; // 并发渲染帧数（限制内存与解码压力）
-const MAX_FRAMES = 1800; // 单次导出帧数上限（MOV 需内存收集帧，兼顾文件体积）
+/** 浏览器版单次导出帧数上限（内存收集全部帧）；桌面版流式写盘无此限制 */
+export const BROWSER_MAX_FRAMES = 1800;
 
 export interface OverlayExportOptions {
   duration: number; // 秒
@@ -375,113 +383,159 @@ export async function runOverlayExport(
   opts: OverlayExportOptions,
 ): Promise<ExportResult> {
   const { duration, fps, replay, signal, onProgress } = opts;
-  const total = Math.min(
-    MAX_FRAMES,
-    Math.max(1, Math.round(duration * fps)),
-  );
+  const bridge = (
+    window as unknown as { overlayStudio?: OverlayBridge }
+  ).overlayStudio;
+  // 桌面版：边渲染边流式写盘，导出完整项目时长（不截断）；
+  // 浏览器版：内存收集全部帧，受 BROWSER_MAX_FRAMES 限制
+  const isDesktop = !!bridge?.saveMovStart;
+  const requested = Math.max(1, Math.round(duration * fps));
+  const total = isDesktop ? requested : Math.min(BROWSER_MAX_FRAMES, requested);
   onProgress({ phase: "preparing", frame: 0, total, message: "准备导出…" });
 
   replay();
   const mountTime = await waitForMount(signal);
   if (signal.aborted) throw new DOMException("Aborted", "AbortError");
+
+  // 桌面版：先落盘 MOV 头部（ftyp + mdat 占位），随后逐帧追加
+  let stream:
+    | { filePath: string; offsets: number[]; sizes: number[]; payloadBytes: number }
+    | null = null;
   try {
-
-  const css = collectAllCss();
-  const rootVars = collectRootVars();
-  const frameEl = document.querySelector(".canvas-frame");
-  if (!frameEl) throw new Error("未找到预览画布");
-
-  let inFlight = 0;
-  const waiters: (() => void)[] = [];
-  const acquire = async () => {
-    while (inFlight >= MAX_INFLIGHT) {
-      await new Promise<void>((r) => waiters.push(r));
-    }
-    inFlight++;
-  };
-  const release = () => {
-    inFlight--;
-    waiters.shift()?.();
-  };
-
-  const frames: Blob[] = [];
-  const jobs: Promise<void>[] = [];
-  let bytes = 0;
-  let saved = 0;
-  const startedAt = performance.now();
-
-  for (let i = 0; i < total; i++) {
-    if (signal.aborted) break;
-    const target = mountTime + i / fps;
-    await waitUntil(target, signal);
-    if (signal.aborted) break;
-
-    // 把共享动效时钟固定到当前帧的项目时间，flushSync 强制同步渲染，
-    // 让 rAF 驱动的组件（数字滚动/图表）按确定性时间出值
-    flushSync(() => setAnimClockOverride(i / fps));
-    const svg = buildFrameSvg(frameEl, css, rootVars, i / fps);
-    await acquire();
-    const idx = i;
-    jobs.push(
-      (async () => {
-        try {
-          const blob = await renderSvgToPngBlob(svg);
-          frames[idx] = blob;
-          bytes += blob.size;
-          saved++;
-          onProgress({
-            phase: "exporting",
-            frame: saved,
-            total,
-            elapsedMs: performance.now() - startedAt,
-          });
-        } catch (e) {
-          if (!signal.aborted) throw e;
-        } finally {
-          release();
-        }
-      })(),
-    );
-    // 让异步渲染/写入有机会推进
-    await new Promise((r) => setTimeout(r, 0));
-  }
-
-  await Promise.all(jobs);
-  if (signal.aborted) throw new DOMException("Aborted", "AbortError");
-
-  if (!frames.length) {
-    return { frames: 0, bytes: 0, video: true };
-  }
-
-  onProgress({
-    phase: "saving",
-    frame: total,
-    total,
-    message: "正在封装透明 MOV 视频…",
-  });
-  const mov = await muxPngFramesToMov(frames, fps, EXPORT_W, EXPORT_H);
-
-  // 桌面版（Electron）：通过 preload 桥流式写入系统「下载」文件夹，
-  // 直接拿到保存路径，完成后可「打开所在文件夹 / 查看视频」
-  const bridge = (window as unknown as { overlayStudio?: OverlayBridge }).overlayStudio;
-  if (bridge?.saveMovStart) {
-    const start = await bridge.saveMovStart("overlay-studio-transparent.mov");
-    if (!start.ok || !start.filePath) {
-      throw new Error(start.error || "无法创建保存文件");
-    }
-    const savePath: string = start.filePath;
-    try {
-      let written = 0;
-      const reader = mov.stream().getReader();
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        written += value.byteLength;
-        const r = await bridge.saveMovChunk(savePath, new Uint8Array(value));
-        if (!r.ok) throw new Error(r.error || "写入文件失败");
+    if (isDesktop) {
+      const header = buildMovHeader();
+      const start = await bridge!.saveMovStart(
+        "overlay-studio-transparent.mov",
+        header,
+      );
+      if (!start.ok || !start.filePath) {
+        throw new Error(start.error || "无法创建保存文件");
       }
-      const end = await bridge.saveMovEnd(savePath, written);
+      stream = {
+        filePath: start.filePath,
+        offsets: [],
+        sizes: [],
+        payloadBytes: 0,
+      };
+    }
+
+    const css = collectAllCss();
+    const rootVars = collectRootVars();
+    const frameEl = document.querySelector(".canvas-frame");
+    if (!frameEl) throw new Error("未找到预览画布");
+
+    let inFlight = 0;
+    const waiters: (() => void)[] = [];
+    const acquire = async () => {
+      while (inFlight >= MAX_INFLIGHT) {
+        await new Promise<void>((r) => waiters.push(r));
+      }
+      inFlight++;
+    };
+    const release = () => {
+      inFlight--;
+      waiters.shift()?.();
+    };
+
+    const frames: Blob[] = [];
+    // 桌面版逐帧顺序写盘：所有写操作串成链，保证帧顺序与 stco 一致
+    let writeChain: Promise<void> = Promise.resolve();
+    const jobs: Promise<void>[] = [];
+    let bytes = 0;
+    let saved = 0;
+    const startedAt = performance.now();
+
+    for (let i = 0; i < total; i++) {
+      if (signal.aborted) break;
+      const target = mountTime + i / fps;
+      await waitUntil(target, signal);
+      if (signal.aborted) break;
+
+      // 把共享动效时钟固定到当前帧的项目时间，flushSync 强制同步渲染，
+      // 让 rAF 驱动的组件（数字滚动/图表）按确定性时间出值
+      flushSync(() => setAnimClockOverride(i / fps));
+      const svg = buildFrameSvg(frameEl, css, rootVars, i / fps);
+      await acquire();
+      const idx = i;
+      jobs.push(
+        (async () => {
+          try {
+            const blob = await renderSvgToPngBlob(svg);
+            if (stream) {
+              // 渲染可并发，写盘必须严格按帧序
+              writeChain = writeChain.then(async () => {
+                if (signal.aborted) return;
+                const buf = new Uint8Array(await blob.arrayBuffer());
+                const r = await bridge!.saveMovChunk(stream!.filePath, buf);
+                if (!r.ok) throw new Error(r.error || "写入文件失败");
+                stream!.offsets.push(
+                  MOV_MDAT_PAYLOAD_START + stream!.payloadBytes,
+                );
+                stream!.sizes.push(buf.byteLength);
+                stream!.payloadBytes += buf.byteLength;
+                bytes += buf.byteLength;
+              });
+              await writeChain;
+            } else {
+              frames[idx] = blob;
+              bytes += blob.size;
+            }
+            saved++;
+            onProgress({
+              phase: "exporting",
+              frame: saved,
+              total,
+              elapsedMs: performance.now() - startedAt,
+            });
+          } catch (e) {
+            if (!signal.aborted) throw e;
+          } finally {
+            release();
+          }
+        })(),
+      );
+      // 让异步渲染/写入有机会推进
+      await new Promise((r) => setTimeout(r, 0));
+    }
+
+    await Promise.all(jobs);
+    if (signal.aborted) throw new DOMException("Aborted", "AbortError");
+
+    if (saved === 0) {
+      return { frames: 0, bytes: 0, video: true };
+    }
+
+    // ---------- 桌面版：补写 mdat size + 追加 moov，直接落盘 ----------
+    if (stream) {
+      onProgress({
+        phase: "saving",
+        frame: total,
+        total,
+        message: "正在封装透明 MOV 视频…",
+      });
+      const moov = buildMovMoov(
+        saved,
+        fps,
+        EXPORT_W,
+        EXPORT_H,
+        stream.offsets,
+        stream.sizes,
+      );
+      // 修正 mdat 大小字段（4 字节大端，位于文件头部 ftyp 之后）
+      const patch = await bridge!.saveMovPatch(
+        stream.filePath,
+        MOV_MDAT_SIZE_OFFSET,
+        u32(8 + stream.payloadBytes),
+      );
+      if (!patch.ok) throw new Error(patch.error || "写入文件失败");
+      const append = await bridge!.saveMovChunk(stream.filePath, moov);
+      if (!append.ok) throw new Error(append.error || "写入文件失败");
+      const end = await bridge!.saveMovEnd(
+        stream.filePath,
+        stream.payloadBytes + moov.byteLength,
+      );
       if (!end.ok || !end.filePath) throw new Error(end.error || "保存文件失败");
+      stream = null; // 成功落盘，无需清理
       onProgress({
         phase: "done",
         frame: saved,
@@ -489,15 +543,25 @@ export async function runOverlayExport(
         message: `已保存到：${end.filePath}`,
       });
       return { frames: saved, bytes, video: true, savedPath: end.filePath };
-    } catch (e) {
-      await bridge.saveMovAbort(savePath).catch(() => {});
-      throw e;
     }
-  }
 
-  // 浏览器版兜底：触发下载
-  downloadBlob(mov, "overlay-studio-transparent.mov");
-  return { frames: saved, bytes, video: true };
+    // ---------- 浏览器版：整体封装后触发下载 ----------
+    onProgress({
+      phase: "saving",
+      frame: total,
+      total,
+      message: "正在封装透明 MOV 视频…",
+    });
+    const mov = await muxPngFramesToMov(frames, fps, EXPORT_W, EXPORT_H);
+    downloadBlob(mov, "overlay-studio-transparent.mov");
+    return { frames: saved, bytes, video: true };
+  } catch (e) {
+    // 桌面版失败/中止：删除半成品文件
+    if (stream) {
+      await bridge?.saveMovAbort(stream.filePath).catch(() => {});
+      stream = null;
+    }
+    throw e;
   } finally {
     // 导出结束（含中止/异常）：恢复实时时钟
     setAnimClockOverride(null);

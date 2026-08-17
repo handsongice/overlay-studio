@@ -8,11 +8,15 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("overlayStudio", {
-  /** 开始一次 MOV 保存：主进程确定目标路径（下载文件夹 + 自动去重） */
-  saveMovStart: (filename) => ipcRenderer.invoke("save-mov-start", filename),
+  /** 开始一次 MOV 保存：主进程确定目标路径（下载文件夹 + 自动去重），并写入头部 */
+  saveMovStart: (filename, header) =>
+    ipcRenderer.invoke("save-mov-start", filename, header),
   /** 追加一个字节块 */
   saveMovChunk: (filePath, chunk) =>
     ipcRenderer.invoke("save-mov-chunk", filePath, chunk),
+  /** 在文件指定偏移补写字节（用于修正 mdat size） */
+  saveMovPatch: (filePath, offset, bytes) =>
+    ipcRenderer.invoke("save-mov-patch", filePath, offset, bytes),
   /** 结束写入并关闭文件 */
   saveMovEnd: (filePath, bytes) =>
     ipcRenderer.invoke("save-mov-end", filePath, bytes),

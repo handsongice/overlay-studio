@@ -43,11 +43,15 @@ function uniqueDownloadPath(filename) {
   return filePath;
 }
 
-ipcMain.handle("save-mov-start", async (_e, filename) => {
+ipcMain.handle("save-mov-start", async (_e, filename, header) => {
   try {
     const filePath = uniqueDownloadPath(filename);
     const fd = fs.openSync(filePath, "w");
     openWriters.set(filePath, fd);
+    // 先写入 MOV 头部（ftyp + mdat 占位），帧数据随后逐块追加
+    if (header && header.length) {
+      fs.writeSync(fd, Buffer.from(header));
+    }
     return { ok: true, filePath };
   } catch (err) {
     return { ok: false, error: String(err && err.message ? err.message : err) };
@@ -59,6 +63,18 @@ ipcMain.handle("save-mov-chunk", (_e, filePath, chunk) => {
   if (fd == null) return { ok: false, error: "writer not found" };
   try {
     fs.writeSync(fd, Buffer.from(chunk));
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: String(err && err.message ? err.message : err) };
+  }
+});
+
+ipcMain.handle("save-mov-patch", (_e, filePath, offset, bytes) => {
+  const fd = openWriters.get(filePath);
+  if (fd == null) return { ok: false, error: "writer not found" };
+  try {
+    const buf = Buffer.from(bytes);
+    fs.writeSync(fd, buf, 0, buf.length, Number(offset) || 0);
     return { ok: true };
   } catch (err) {
     return { ok: false, error: String(err && err.message ? err.message : err) };
