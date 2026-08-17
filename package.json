@@ -1,7 +1,7 @@
 {
   "name": "overlay-studio",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Overlay Studio — 特效叠加工作台：SRT 字幕自动生成动效卡片 JSON",
   "scripts": {
